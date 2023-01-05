@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Chatboxx</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div class="chat-container clearfix">
+			<div class="people-list" id="people-list">
+				<div class="search">
+					<input type="text" placeholder="search here" />
+					<i class="fa fa-search"></i>
+				</div>
+				<ul class="list">
+					<li class="clearfix">
+						<div class="about">
+							<div class="name">Bijay</div>
+							<div class="status">
+								<i class="online"></i> online
+							</div>
+						</div>
+					</li>
+
+					<li class="clearfix">
+						<div class="about">
+							<div class="name">Hari</div>
+							<div class="status">
+								<i class="offline"></i> off online
+							</div>
+						</div>
+					</li>
+
+					<li class="clearfix">
+						<div class="about">
+							<div class="name">Samir</div>
+							<div class="status">
+								<i class="online"></i> off online
+							</div>
+						</div>
+					</li>
+
+					<li class="clearfix">
+						<div class="about">
+							<div class="name">Sita</div>
+							<div class="status">
+								<i class="online"></i> online
+							</div>
+						</div>
+					</li>
+
+					<li class="clearfix">
+						<div class="about">
+							<div class="name">Kushal</div>
+							<div class="status">
+								<i class="online"></i> online
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="chat">
+				<div class="chat-header clearfix">
+					<div class="chat-about">
+						<div class="chat-with">Chat with Bijay</div>
+						<div class="chat-num-messages">Messages</div>
+					</div>
+					<i class="fa fa-star"></i>
+				</div>
+				<!-- end chat-header -->
+
+				<div class="chat-history">
+					<ul>
+						<li class="clearfix">
+							<div class="message-data align-right">
+								<span class="message-data-time">Today</span> 
+								<span class="message-data-name">Kushal</span>
+								<i class="circle me"></i>
+							</div>
+							<div class="message other-message float-right">
+								Hi, how are you doing ?
+							</div>
+						</li>
+
+						<li>
+							<div class="message-data">
+								<i class="online"></i> Bijay</span
+								>
+								<span class="message-data-time">Today</span>
+							</div>
+							<div class="message my-message">
+								I am doing great . What about you ?
+							</div>
+						</li>
+
+						<li class="clearfix">
+							<div class="message-data align-right">
+								<span class="message-data-time">Today</span> 
+								&nbsp; <span class="message-data-name">Kushal</span>
+								<i class="circle me"></i>
+							</div>
+							<div class="message other-message float-right">
+								.........................
+							</div>
+						</li>
+
+						<li>
+							<div class="message-data">
+								<span class="message-data-name"
+									><i class="online"></i> Bijay</span
+								>
+								<span class="message-data-time">Today</span>
+							</div>
+							<div class="message my-message">..........</div>
+						</li>
+					</ul>
+				</div>
+				<!-- end chat-history -->
+
+				<div class="chat-message clearfix">
+					<textarea
+						name="message-to-send"
+						id="message-to-send"
+						placeholder="Type your message"
+						rows="3"
+					></textarea>
+
+					<button id="btn">Send</button>
+				</div>
+			</div>
+
+		</div>
+
+	</body>
+</html>
