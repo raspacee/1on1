@@ -1,9 +1,23 @@
+import moment from "moment";
+
 const ChatMessage = (props) => {
   return (
-    <div className="chat-message">
-      <div className="chat-message-text">{props.text}</div>
-      <div className="chat-message-timestamp">{props.timestamp} PM</div>
-    </div>
+    <li className="clearfix">
+      <div className={`message-data ${props.fromSelf ? "" : "align-right"}`}>
+        <span className="message-data-time">
+          {moment(props.time).fromNow()}
+        </span>
+        <span className="message-data-name">{props.fromUsername}</span>
+        <i className="circle me"></i>
+      </div>
+      <div
+        className={`message ${
+          props.fromSelf ? "my-message" : "other-message float-right"
+        }`}
+      >
+        {props.text}
+      </div>
+    </li>
   );
 };
 

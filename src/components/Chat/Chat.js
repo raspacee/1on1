@@ -4,36 +4,8 @@ import _ from "lodash";
 
 import ChatInput from "./ChatInput";
 import ChatSidebar from "./ChatSidebar";
-import "./Chat.css";
+import "./ChatStyles.css";
 import ChatMessages from "./ChatMessages";
-
-const DUMMY_CHAT = [
-  {
-    message: "Jamming at joe's garage",
-    timestamp: "10:34",
-  },
-  {
-    message: "Eric get the bombs",
-    timestamp: "11:11",
-  },
-  {
-    message: "Jamming asst joe's garage",
-    timestamp: "10:34",
-  },
-];
-
-const DUMMY_CHAT2 = [
-  {
-    user: "Bijay Khapung",
-    message: "How are you doing MR. Price?",
-    timestamp: "10:34",
-  },
-  {
-    user: "Bijay Khapung",
-    message: "I hope you remember General Sheperd",
-    timestamp: "11:11",
-  },
-];
 
 let socket;
 
@@ -49,8 +21,42 @@ function Chat() {
       "Abba",
     ])
   );
+  const [socketID, setSocketID] = useState("");
   const [users, setUsers] = useState([
-    { userID: "test", username: "test", chat: [] },
+    {
+      userID: "test",
+      username: "test",
+      chat: [
+        {
+          username: "Bijay Khapung",
+          message: "How are you doing MR. Price?",
+          time: "1/6/2023, 2:06:22 PM",
+          fromSelf: true,
+        },
+        {
+          username: "Bijay Khapung",
+          message: "I hope you remember General Sheperd",
+          timestamp: "11:11",
+          fromSelf: false,
+        },
+      ],
+    },
+    {
+      userID: "jodie",
+      username: "john doe",
+      chat: [
+        {
+          username: "Jodie Foster",
+          message: "lorem ipsum",
+          timestamp: "10:34",
+        },
+        {
+          username: "Bijay Khapung",
+          message: "lorem ipsum 123",
+          timestamp: "11:11",
+        },
+      ],
+    },
   ]);
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -67,6 +73,10 @@ function Chat() {
       }
     });
 
+    socket.on("connection info", (info) => {
+      setSocketID(info.socketID);
+    });
+
     socket.on("users", (clients) => {
       setUsers((oldUsers) => {
         const filteredUsers = clients
@@ -78,7 +88,7 @@ function Chat() {
             };
           })
           .filter((client) => client.username !== username);
-        return filteredUsers;
+        return oldUsers.concat(filteredUsers);
       });
     });
 
@@ -90,15 +100,13 @@ function Chat() {
       });
     });
 
-    socket.on("private message", ({ message, from }) => {
+    socket.on("private message", ({ message, from, fromUsername, time }) => {
       setUsers((users) => {
         for (let i = 0; i < users.length; i++) {
           const user = users[i];
-          console.log(user);
           if (user.userID == from) {
-            console.log(user);
             const index = users.indexOf(user);
-            addMessage(message, index, false);
+            addMessage(message, from, fromUsername, time, index);
           }
         }
         return users;
@@ -119,14 +127,22 @@ function Chat() {
     setTabIndex(value);
   };
 
-  const addMessage = (message, chatIndex = tabIndex, fromSelf = false) => {
-    // let newChat = _.cloneDeep(chats);
+  const addMessage = (
+    message,
+    from,
+    fromUsername,
+    time,
+    chatIndex = tabIndex
+  ) => {
     setUsers((users) => {
       let newUsers = [...users];
+      let fromSelf;
+      fromSelf = from == socketID ? true : false;
       const newMessage = {
         message,
         fromSelf,
-        timestamp: Date.now().toLocaleString(),
+        fromUsername,
+        time,
       };
       newUsers[chatIndex].chat.push(newMessage);
       return newUsers;
@@ -134,21 +150,29 @@ function Chat() {
   };
 
   const sendMessage = (message) => {
-    socket.emit("private message", { message, to: users[tabIndex].userID });
-    addMessage(message, tabIndex, true);
+    const time = new Date().toLocaleString();
+    socket.emit("private message", {
+      message,
+      to: users[tabIndex].userID,
+      time,
+    });
+    addMessage(message, socketID, username, time, tabIndex);
   };
 
   return (
     <>
-      <div className="chat-container">
+      <div className="chat-container clearfix">
         <ChatSidebar
           users={users}
           value={tabIndex}
           handleChange={tabHandleChange}
         />
-        <ChatMessages messages={users[tabIndex].chat} />
+        <ChatMessages
+          sendMessage={sendMessage}
+          messages={users[tabIndex].chat}
+          username={users[tabIndex].username}
+        />
       </div>
-      <ChatInput sendMessage={sendMessage} />
     </>
   );
 }

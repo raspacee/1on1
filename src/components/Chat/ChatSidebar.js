@@ -1,30 +1,33 @@
-import Box from "@mui/material/Box";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-
 const ChatSidebar = (props) => {
   const { users, value, handleChange } = props;
 
-  const renderedTabs = users.map((user) => (
-    <Tab
-      key={user.userID}
-      className="chat-side-bar-item"
-      label={user.username}
-    />
-  ));
+  const renderedUsers = users.map((user, index) => {
+    return (
+      <li
+        key={user.userID}
+        className="clearfix"
+        onClick={(e) => {
+          props.handleChange(e, index);
+        }}
+      >
+        <div className="about">
+          <div className="name">{user.username}</div>
+          <div className="status">
+            <i className="online"></i>online
+          </div>
+        </div>
+      </li>
+    );
+  });
 
   return (
-    <Box>
-      <Tabs
-        className="chat-sidebar"
-        value={value}
-        onChange={handleChange}
-        aria-label="basic tabs example"
-        orientation="vertical"
-      >
-        {renderedTabs}
-      </Tabs>
-    </Box>
+    <div className="people-list" id="people-list">
+      <div className="search">
+        <input type="text" placeholder="search here" />
+        <i className="fa fa-search"></i>
+      </div>
+      <ul className="list">{renderedUsers}</ul>
+    </div>
   );
 };
 

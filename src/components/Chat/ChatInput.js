@@ -10,21 +10,19 @@ const ChatInput = (props) => {
   };
 
   return (
-    <div className="chat-input">
-      <input
-        type="text"
-        className="chat-input-field"
-        placeholder="Type your message here..."
+    <div className="chat-message clearfix">
+      <textarea
+        name="message-to-send"
+        id="message-to-send"
+        placeholder="Type your message"
+        rows="3"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-      />
-      <Button
-        onClick={handleSend}
-        className="chat-input-button"
-        variant="outlined"
-      >
+      ></textarea>
+
+      <button onClick={handleSend} id="btn">
         Send
-      </Button>
+      </button>
     </div>
   );
 };
